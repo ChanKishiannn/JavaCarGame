@@ -9,11 +9,13 @@ import java.awt.Graphics;
  * @author Christian Abuda
  */
 public class CarClass {
+    //Car Attributes
     int carX = 330;
     int carY = 850;
     int carWidth = 50;
     int carHeigth = 100;
     
+    //Car Physics Attributes
     double gravity = 0.10;
     double velocity = 0;
     
@@ -22,12 +24,13 @@ public class CarClass {
         this.carY = y;
     }
     
+    //Car Physics Applied
     public void update(){
         velocity += gravity;
         carY += velocity;
     }
     
-    
+    //Car Drawing
     public void draw(Graphics g){
         //Car Wheels Left Upper
         g.setColor(Color.BLACK);
