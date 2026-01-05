@@ -10,10 +10,11 @@ import java.util.Random;
  * @author Christian Abuda
  */
 public class MapClass{
+    //Array where the random car spawn
     int [] lanes = {95, 150, 200, 250, 300, 350, 400, 450, 500, 550};
     ArrayList<LaneMarker> lineDivider = new ArrayList<>();
     
-    
+    //Array of Lane Divider Spawn
     ArrayList<CarClass> randomCar = new ArrayList<>();
     Random spawnCarRandom = new Random();
     
@@ -21,6 +22,12 @@ public class MapClass{
     long lastCarSpawnTime = 0;
     final int SPAWN_DELAY = 500;
     
+    
+    //Road Off Limit Code
+    int offLimitX = 0;
+    int offLimitY = 0;
+    int offLimitWidth = 10;
+    int offLimitHeigth = 1000;
     
     //Spawn Car in Lanes Code//
     public void spawnRandomCar(){
@@ -47,7 +54,7 @@ public class MapClass{
     }
     
     //Player Car and Random Car Collition//
-    public boolean checkCollition(PlayerCar player){
+    public boolean checkCollitionCar(PlayerCar player){
         for(CarClass car: randomCar){
             if(player.playerCarX < car.carX + car.carWidth &&
                 player.playerCarX + player.playerCarWidth > car.carX &&
@@ -58,6 +65,22 @@ public class MapClass{
             }
         }
         return false;
+    }
+    
+    //Player Car and OffLimit Collition//
+    public void checkCollitionOffLimit(PlayerCar player){
+        int leftWallX = 85;
+        int rightWallX = 605;
+        
+        //Check Left Collition
+        if(player.playerCarX < leftWallX){
+            player.playerCarX = leftWallX;
+        }
+        
+        //Check Right Collition
+        if(player.playerCarX + player.playerCarWidth > rightWallX){
+            player.playerCarX = rightWallX - player.playerCarWidth;
+        }
     }
     
     
@@ -78,7 +101,7 @@ public class MapClass{
         }
         
         //Random Car Spawn Code//
-        if(currentTime - lastCarSpawnTime >= SPAWN_DELAY + 500){
+        if(currentTime - lastCarSpawnTime >= SPAWN_DELAY + 50){
             spawnRandomCar();
             lastCarSpawnTime = currentTime;
         }
@@ -91,6 +114,7 @@ public class MapClass{
     public void draw(Graphics g){
         g.setColor(Color.GRAY);
         g.fillRect(80, 0, 530, 1000);
+        
               
         for(LaneMarker divider: lineDivider){
             divider.draw(g); 
@@ -98,5 +122,11 @@ public class MapClass{
         for(CarClass opponentCar : randomCar){
             opponentCar.draw(g);
         }
+        
+        g.setColor(Color.BLACK);
+        g.fillRect(offLimitX + 70, offLimitY, offLimitWidth, offLimitHeigth);
+        
+        g.setColor(Color.BLACK);
+        g.fillRect(offLimitX + 610, offLimitY, offLimitWidth, offLimitHeigth);
     }
 }
