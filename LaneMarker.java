@@ -12,7 +12,7 @@ public class LaneMarker {
     int laneMarkerX = 330;
     int laneMarkerY = -100;
     int laneMarkerWidth = 30;
-    int laneMarkerHeigth = 80;
+    int laneMarkerHeigth = 150;
     
     double gravity = 0.5;
     double velocity = 0;
@@ -22,12 +22,13 @@ public class LaneMarker {
         this.laneMarkerY = y;
     }
     
+    //Physics of Road Divider
     public void update(){
         velocity += gravity;
         laneMarkerY += velocity;
     }
     
-    
+    //Road Divider Drawing
     public void draw(Graphics g){        
         g.setColor(Color.WHITE);
         g.fillRect(laneMarkerX, laneMarkerY, laneMarkerWidth, laneMarkerHeigth);
